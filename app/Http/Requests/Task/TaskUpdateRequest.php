@@ -1,9 +1,9 @@
 <?php
-namespace App\Http\Requests;
+namespace App\Http\Requests\Task;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TaskStoreRequest extends FormRequest
+class TaskUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,7 +12,7 @@ class TaskStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->task->user_id == auth()->id();
     }
 
     /**

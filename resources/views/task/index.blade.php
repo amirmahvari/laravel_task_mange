@@ -48,5 +48,6 @@
             @endforeach
             </tbody>
         </table>
+        {{$tasks->render()}}
     </div>
 @endsection
