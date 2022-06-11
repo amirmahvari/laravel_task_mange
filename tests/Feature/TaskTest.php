@@ -14,7 +14,7 @@ class TaskTest extends TestCase
      */
     public function test_create_a_user()
     {
-        $attributes = factory(Task::class)->make();
+        $attributes = factory(Task::class)->create();
         $response = $this->actingAs(User::first())
             ->post('/task' , $attributes->toArray())
             ->assertStatus(200);
