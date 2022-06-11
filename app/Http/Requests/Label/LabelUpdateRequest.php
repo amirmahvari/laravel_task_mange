@@ -12,7 +12,7 @@ class LabelUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class LabelUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'label' => ['required' , 'unique:labels,'.$this->label->id] ,
+            'label' => ['required' , 'unique:labels,id,'.$this->route('label')->id] ,
         ];
     }
 }

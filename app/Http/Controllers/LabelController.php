@@ -72,7 +72,6 @@ class LabelController extends Controller
      */
     public function edit(Label $label)
     {
-        $this->authorize('update',$label);
         return view('label.edit' , [
             'label'      => $label ,
             'pageTitle' => __('Label Edit'),
@@ -88,7 +87,6 @@ class LabelController extends Controller
      */
     public function update(LabelUpdateRequest $request , Label $label)
     {
-        $this->authorize('update',$label);
         $this->labelService->updateLabel($request , $label);
         return redirect(route('label.index'));
     }
@@ -101,7 +99,6 @@ class LabelController extends Controller
      */
     public function destroy(Label $label)
     {
-        $this->authorize('delete',$label);
         $this->labelService->delete($label);
     }
 }

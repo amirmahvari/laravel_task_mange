@@ -35,13 +35,13 @@ class LabelService
         return Label::create($this->binding($request));
     }
 
-    public function updateLabel(Request $request , Label $tabel)
+    public function updateLabel(Request $request , Label $label)
     {
-        return $tabel->update($this->binding($request));
+        return $label->update($this->binding($request));
     }
 
-    public function delete(Label $tabel)
+    public function delete(Label $label)
     {
-        $tabel->delete();
+        $label->delete();
     }
 }
