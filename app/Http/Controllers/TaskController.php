@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Task\TaskStoreRequest;
 use App\Http\Requests\Task\TaskUpdateRequest;
+use App\Http\Resources\TaskEditResource;
 use App\Service\LabelService;
 use App\Service\TaskService;
 use App\Task;
@@ -82,7 +83,7 @@ class TaskController extends Controller
         $this->authorize('update' , $task);
         return view('task.edit' , [
             'labels'    => $this->labelService->getList() ,
-            'task'      => $task ,
+            'task'      => (new TaskEditResource($task))->resolve() ,
             'pageTitle' => __('Task Edit') ,
         ]);
     }
