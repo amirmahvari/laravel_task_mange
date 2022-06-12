@@ -78,4 +78,21 @@ class TaskTest extends TestCase
             ->assertSessionHasErrors(['title','description'])
             ->assertStatus(302);
     }
+    /**
+     * test update task
+     */
+    public function test_update_a_task()
+    {
+        $task = factory(Task::class)
+            ->create()
+            ->first();
+        $attribute = factory(Task::class)->make();
+        $this->actingAs($task->user)
+            ->patch(route('task.update' , $task) , $attribute->toArray())
+            ->assertStatus(302);
+        $this->assertDatabaseHas('tasks' ,
+            Task::where('id' , $task->id)
+                ->first()
+                ->toArray());
+    }
 }
