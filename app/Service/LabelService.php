@@ -11,7 +11,8 @@ class LabelService
      */
     public function getLabels($length = 10)
     {
-        return Label::paginate($length);
+        return Label::orderBy('id','desc')
+            ->paginate($length);
     }
 
     /**
