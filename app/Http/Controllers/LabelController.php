@@ -14,6 +14,7 @@ class LabelController extends Controller
 
     public function __construct(LabelService $labelService)
     {
+        $this->middleware('auth');
         $this->labelService = $labelService;
     }
 
@@ -37,7 +38,7 @@ class LabelController extends Controller
     public function create()
     {
         return view('label.create' , [
-            'pageTitle' => __('Label Create') ,
+            'pageTitle' => __('Create Label') ,
         ]);
     }
 
@@ -74,7 +75,7 @@ class LabelController extends Controller
     {
         return view('label.edit' , [
             'label'      => $label ,
-            'pageTitle' => __('Label Edit'),
+            'pageTitle' => __('Edit Label'),
         ]);
     }
 
@@ -95,10 +96,11 @@ class LabelController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Label $label
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy(Label $label)
     {
         $this->labelService->delete($label);
+        return redirect(route('label.index'));
     }
 }

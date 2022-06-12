@@ -14,6 +14,7 @@ class TaskController extends Controller
 
     public function __construct(TaskService $taskService)
     {
+        $this->middleware('auth');
         $this->taskService = $taskService;
     }
 
@@ -97,11 +98,13 @@ class TaskController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Task $task
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Task $task)
     {
         $this->authorize('delete',$task);
         $this->taskService->delete($task);
+        return redirect(route('label.index'));
     }
 }

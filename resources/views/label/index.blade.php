@@ -6,7 +6,7 @@
                 <h1>{{$pageTitle}}</h1>
             </div>
             <div class="col-lg-6 text-right">
-                <a href="{{route('label.create')}}" class="btn btn-success">{{__('Label Create')}}</a>
+                <a href="{{route('label.create')}}" class="btn btn-success">{{__('Create Label')}}</a>
             </div>
         </div>
         <table class="table">
