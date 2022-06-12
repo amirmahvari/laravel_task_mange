@@ -21,5 +21,3 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('task', 'TaskController');
-Route::resource('label', 'LabelController');

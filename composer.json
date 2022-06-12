@@ -30,11 +30,15 @@
     },
     "extra": {
         "laravel": {
+            "providers": [
+                "Amirabbas8643\\Todo\\TodoServiceProvider"
+            ],
             "dont-discover": []
         }
     },
     "autoload": {
         "psr-4": {
+            "Amirabbas8643\\Todo\\": "packages/amirabbas8643/Todo/src",
             "App\\": "app/"
         },
         "classmap": [
@@ -44,6 +48,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Amirabbas8643\\Todo\\": "packages/amirabbas8643/Todo/src",
             "Tests\\": "tests/"
         }
     },
