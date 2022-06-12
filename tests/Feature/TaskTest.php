@@ -9,7 +9,7 @@ class TaskTest extends TestCase
 {
     /**
      * A basic feature test example.
-     *
+     * test  create task
      * @return void
      */
     public function test_store_a_task()
@@ -21,6 +21,9 @@ class TaskTest extends TestCase
         $this->assertDatabaseHas('tasks' , $attributes->toArray());
     }
 
+    /**
+     * test validation title and description for create task
+     */
     public function test_store_validation()
     {
         $this->actingAs(User::first())
