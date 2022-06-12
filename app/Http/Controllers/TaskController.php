@@ -3,19 +3,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Task\TaskStoreRequest;
 use App\Http\Requests\Task\TaskUpdateRequest;
+use App\Service\LabelService;
 use App\Service\TaskService;
 use App\Task;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class TaskController extends Controller
 {
     private $taskService;
+    private $labelService;
 
-    public function __construct(TaskService $taskService)
+    public function __construct(TaskService $taskService , LabelService $labelService)
     {
         $this->middleware('auth');
         $this->taskService = $taskService;
+        $this->labelService = $labelService;
     }
 
     /**
@@ -27,7 +29,7 @@ class TaskController extends Controller
     {
         return view('task.index' , [
             'tasks'     => $this->taskService->getMyTasks() ,
-            'pageTitle' => 'Task List',
+            'pageTitle' => 'Task List' ,
         ]);
     }
 
@@ -38,6 +40,7 @@ class TaskController extends Controller
     public function create()
     {
         return view('task.create' , [
+            'labels'    => $this->labelService->getList() ,
             'pageTitle' => __('Task Create') ,
         ]);
     }
@@ -50,7 +53,11 @@ class TaskController extends Controller
      */
     public function store(TaskStoreRequest $request)
     {
-        $this->taskService->createTask($request);
+        $task = $this->taskService->createTask($request);
+        if(is_array($request->get('labels')))
+        {
+            $this->taskService->attachLabels($task , $request->get('labels'));
+        }
         return redirect(route('task.index'));
     }
 
@@ -62,7 +69,6 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-
     }
 
     /**
@@ -73,10 +79,11 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $this->authorize('update',$task);
+        $this->authorize('update' , $task);
         return view('task.edit' , [
+            'labels'    => $this->labelService->getList() ,
             'task'      => $task ,
-            'pageTitle' => __('Task Edit'),
+            'pageTitle' => __('Task Edit') ,
         ]);
     }
 
@@ -89,8 +96,12 @@ class TaskController extends Controller
      */
     public function update(TaskUpdateRequest $request , Task $task)
     {
-        $this->authorize('update',$task);
+        $this->authorize('update' , $task);
         $this->taskService->updateTask($request , $task);
+        if(is_array($request->get('labels')))
+        {
+            $this->taskService->syncLabels($task , $request->get('labels'));
+        }
         return redirect(route('task.index'));
     }
 
@@ -103,7 +114,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $this->authorize('delete',$task);
+        $this->authorize('delete' , $task);
         $this->taskService->delete($task);
         return redirect(route('label.index'));
     }

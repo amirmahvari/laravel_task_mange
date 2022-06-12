@@ -15,6 +15,11 @@ class LabelService
             ->paginate($length);
     }
 
+    public function getList()
+    {
+        return Label::all();
+    }
+
     /**
      * @param Request $request
      * @param $user_id

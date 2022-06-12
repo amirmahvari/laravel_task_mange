@@ -40,6 +40,16 @@ class TaskService
         return Task::create($this->binding($request , auth()->id()));
     }
 
+    public function attachLabels(Task $task,array $labels)
+    {
+        $task->labels()->attach($labels);
+    }
+
+    public function syncLabels(Task $task,array $labels)
+    {
+        $task->labels()->sync($labels);
+    }
+
     public function updateTask(Request $request , Task $task)
     {
         return $task->update($this->binding($request , $task->user_id));
