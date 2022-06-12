@@ -12,13 +12,20 @@ class TaskTest extends TestCase
      *
      * @return void
      */
-    public function test_create_a_user()
+    public function test_store_a_task()
     {
-        $attributes = factory(Task::class)->create();
-        $response = $this->actingAs(User::first())
-            ->post('/task' , $attributes->toArray())
-            ->assertStatus(200);
+        $attributes = factory(Task::class)->make();
+        $this->actingAs(User::first())
+            ->post(route('task.store') , $attributes->toArray())
+            ->assertStatus(302);
         $this->assertDatabaseHas('tasks' , $attributes->toArray());
-        $response->assertSee($attributes['title']);
+    }
+
+    public function test_store_validation()
+    {
+        $this->actingAs(User::first())
+            ->post(route('task.store'))
+            ->assertSessionHasErrors(['title','description'])
+            ->assertStatus(302);
     }
 }
