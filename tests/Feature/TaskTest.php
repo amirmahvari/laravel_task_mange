@@ -67,5 +67,15 @@ class TaskTest extends TestCase
             ->assertStatus(403);
     }
 
-
+    /**
+     * test validation title and description for update task
+     */
+    public function test_update_validation()
+    {
+        $task=factory(Task::class)->create()->first();
+        $this->actingAs($task->user)
+            ->patch(route('task.update',$task))
+            ->assertSessionHasErrors(['title','description'])
+            ->assertStatus(302);
+    }
 }
