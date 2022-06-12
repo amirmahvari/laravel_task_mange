@@ -55,4 +55,17 @@ class TaskTest extends TestCase
             ->assertViewIs('task.edit')
             ->assertViewHasAll(['task'=>$task]);
     }
+
+    /**
+     * Check Users can only update their own
+     */
+    public function test_authorize_update_task()
+    {
+        $task=factory(Task::class,1)->create()->first();
+        $this->actingAs(User::first())
+            ->patch(route('task.update',$task))
+            ->assertStatus(403);
+    }
+
+
 }
