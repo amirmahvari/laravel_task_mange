@@ -15,7 +15,7 @@ class TaskTest extends TestCase
     public function test_store_a_task()
     {
         $attributes = factory(Task::class)->make();
-        $this->actingAs(User::first())
+        $this->actingAs(factory(User::class)->create()->first()->id)
             ->post(route('task.store') , $attributes->toArray())
             ->assertStatus(302);
         $this->assertDatabaseHas('tasks' , $attributes->toArray());
@@ -30,5 +30,29 @@ class TaskTest extends TestCase
             ->post(route('task.store'))
             ->assertSessionHasErrors(['title','description'])
             ->assertStatus(302);
+    }
+
+    /**
+     * Check Users can only edit their own
+     */
+    public function test_authorize_edit_task()
+    {
+        $task=factory(Task::class,1)->create()->first();
+        $this->actingAs(User::first())
+            ->get(route('task.edit',$task))
+            ->assertStatus(403);
+    }
+
+    /**
+     *  Users check view and data
+     */
+    public function test_show_edit_task()
+    {
+        $task=factory(Task::class)->create()->first();
+        $this->actingAs($task->user)
+            ->get(route('task.edit',$task))
+            ->assertStatus(200)
+            ->assertViewIs('task.edit')
+            ->assertViewHasAll(['task'=>$task]);
     }
 }
