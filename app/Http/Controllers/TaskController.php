@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TaskStoreRequest;
-use App\Http\Requests\TaskUpdateRequest;
+use App\Http\Requests\Task\TaskStoreRequest;
+use App\Http\Requests\Task\TaskUpdateRequest;
 use App\Service\TaskService;
 use App\Task;
 use Illuminate\Http\Request;
